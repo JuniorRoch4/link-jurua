@@ -141,8 +141,8 @@ a{ color:inherit; text-decoration:none; }
   position:absolute;
   inset:0;
   background:
-    radial-gradient(60% 60% at 50% 38%, rgba(20,26,10,.25), rgba(20,26,10,.55) 65%),
-    linear-gradient(180deg, rgba(15,20,8,.55) 0%, rgba(15,20,8,.35) 40%, rgba(15,20,8,.75) 100%);
+    radial-gradient(60% 60% at 50% 38%, rgba(20,26,10,.1), rgba(20,26,10,.25) 70%),
+    linear-gradient(180deg, rgba(15,20,8,.28) 0%, rgba(15,20,8,.12) 45%, rgba(15,20,8,.38) 100%);
   z-index:1;
 }
 
@@ -202,6 +202,10 @@ a{ color:inherit; text-decoration:none; }
   line-height:1.6;
   max-width:480px;
   margin:0 auto;
+  text-shadow:0 1px 3px rgba(15,20,8,.85), 0 3px 12px rgba(15,20,8,.6);
+}
+.hero .eyebrow{
+  text-shadow:0 1px 3px rgba(15,20,8,.85);
 }
 
 .scroll-cue{
@@ -540,8 +544,8 @@ a{ color:inherit; text-decoration:none; }
   position:absolute;
   inset:0;
   background:
-    radial-gradient(70% 70% at 50% 45%, rgba(20,26,10,.5), rgba(20,26,10,.78) 85%),
-    linear-gradient(180deg, rgba(15,20,8,.55), rgba(15,20,8,.78));
+    radial-gradient(70% 70% at 50% 45%, rgba(20,26,10,.22), rgba(20,26,10,.42) 88%),
+    linear-gradient(180deg, rgba(15,20,8,.25), rgba(15,20,8,.42));
   z-index:1;
 }
 .footer-banner__content{
@@ -591,6 +595,13 @@ a{ color:inherit; text-decoration:none; }
   color:rgba(250,246,231,.7);
   font-size:.82rem;
 }
+.footer__credit{
+  color:var(--green-light);
+  font-weight:500;
+  border-bottom:1px solid rgba(203,227,138,.4);
+  transition:opacity .3s;
+}
+.footer__credit:hover{ opacity:.75; }
 
 /* ===================== WHATSAPP FAB ===================== */
 .whatsapp-fab{
