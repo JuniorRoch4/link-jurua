@@ -1,41 +1,50 @@
 /*
-  Efeito "3D" orgânico do hero: camadas de bolhas/folhas com profundidade
-  sobre a foto de fundo. Parallax em UMA direção só (vertical) — reage ao
-  mouse (desktop), à rolagem e ao giroscópio (mobile).
+  Efeito "3D" orgânico: camadas de bolhas/folhas com profundidade sobre
+  seções com foto de fundo. Parallax em UMA direção só (vertical) — reage
+  ao mouse (desktop), à rolagem e ao giroscópio (mobile).
+  Aplica-se a todo <canvas class="depth-canvas"> dentro de uma seção.
 */
 (function () {
-  const canvas = document.getElementById('bg-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const hero = document.getElementById('hero');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const scenes = [];
 
-  let width, height, dpr;
-  let pointer = { y: 0 };      // -1..1, alvo (apenas eixo vertical)
-  let pointerEased = { y: 0 }; // valor suavizado
-  let particles = [];
-  let reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function createScene(canvas) {
+    const ctx = canvas.getContext('2d');
+    const container = canvas.closest('section') || canvas.parentElement;
 
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = hero.clientWidth;
-    height = hero.clientHeight;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    buildParticles();
+    const scene = {
+      canvas, ctx, container,
+      width: 0, height: 0,
+      pointer: { y: 0 },
+      pointerEased: { y: 0 },
+      particles: [],
+    };
+
+    scene.resize = function () {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      scene.width = container.clientWidth;
+      scene.height = container.clientHeight;
+      canvas.width = scene.width * dpr;
+      canvas.height = scene.height * dpr;
+      canvas.style.width = scene.width + 'px';
+      canvas.style.height = scene.height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildParticles(scene);
+    };
+
+    scene.resize();
+    return scene;
   }
 
-  function buildParticles() {
-    const count = width < 640 ? 18 : 32;
-    particles = [];
+  function buildParticles(scene) {
+    const count = scene.width < 640 ? 14 : 26;
+    scene.particles = [];
     for (let i = 0; i < count; i++) {
       const depth = Math.random(); // 0 = longe, 1 = perto
       const isLeaf = Math.random() < 0.35;
-      particles.push({
-        baseX: Math.random() * width,
-        baseY: Math.random() * height,
+      scene.particles.push({
+        baseX: Math.random() * scene.width,
+        baseY: Math.random() * scene.height,
         depth,
         r: isLeaf ? 10 + depth * 22 : 6 + depth * 34,
         isLeaf,
@@ -43,18 +52,17 @@
         drift: Math.random() * Math.PI * 2,
         driftSpeed: 0.15 + Math.random() * 0.25,
         rot: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.3,
         floatAmp: 10 + Math.random() * 26,
       });
     }
   }
 
-  function drawBlob(p, x, y, t) {
+  function drawBlob(ctx, p, x, y, t) {
     const wob = Math.sin(t * 0.6 + p.drift) * (p.r * 0.12);
     ctx.beginPath();
     ctx.ellipse(x, y, p.r + wob, p.r * 0.92 - wob, p.rot, 0, Math.PI * 2);
     const alpha = 0.10 + p.depth * 0.22;
-    // tons claros — desenhados apenas sobre a foto escura do hero
+    // tons claros — desenhados apenas sobre fundos escuros
     if (p.hue === 'green') {
       ctx.fillStyle = `rgba(156,191,63,${alpha})`;
     } else {
@@ -63,7 +71,7 @@
     ctx.fill();
   }
 
-  function drawLeaf(p, x, y, t) {
+  function drawLeaf(ctx, p, x, y, t) {
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(p.rot + Math.sin(t * 0.3 + p.drift) * 0.2);
@@ -77,43 +85,46 @@
     ctx.restore();
   }
 
-  let t0 = performance.now();
-  function frame(now) {
-    const t = (now - t0) / 1000;
-
-    pointerEased.y += (pointer.y - pointerEased.y) * 0.06;
-
-    ctx.clearRect(0, 0, width, height);
-
-    for (const p of particles) {
+  function drawScene(scene, t) {
+    const { ctx } = scene;
+    scene.pointerEased.y += (scene.pointer.y - scene.pointerEased.y) * 0.06;
+    ctx.clearRect(0, 0, scene.width, scene.height);
+    for (const p of scene.particles) {
       const floatY = Math.sin(t * p.driftSpeed + p.drift) * p.floatAmp;
       // profundidade: camadas mais "perto" deslocam mais — apenas no eixo vertical
       const parallaxStrength = 22 + p.depth * 58;
-      const x = p.baseX;
-      const y = p.baseY + floatY + pointerEased.y * parallaxStrength;
-
-      if (p.isLeaf) drawLeaf(p, x, y, t);
-      else drawBlob(p, x, y, t);
+      const y = p.baseY + floatY + scene.pointerEased.y * parallaxStrength;
+      if (p.isLeaf) drawLeaf(ctx, p, p.baseX, y, t);
+      else drawBlob(ctx, p, p.baseX, y, t);
     }
+  }
 
+  let t0 = performance.now();
+  function frame(now) {
+    const t = (now - t0) / 1000;
+    for (const scene of scenes) drawScene(scene, t);
     requestAnimationFrame(frame);
   }
 
-  function setPointerFromY(clientY) {
-    const ny = (clientY / window.innerHeight) * 2 - 1;
-    pointer.y = Math.max(-1, Math.min(1, ny));
+  // Rolagem: profundidade segue a posição da seção na tela (uma direção, previsível)
+  function updateFromScroll() {
+    for (const scene of scenes) {
+      const rect = scene.container.getBoundingClientRect();
+      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+      const range = window.innerHeight / 2 + rect.height / 2;
+      scene.pointer.y = Math.max(-1, Math.min(1, -center / range));
+    }
   }
+  window.addEventListener('scroll', updateFromScroll, { passive: true });
 
-  // Desktop: posição vertical do mouse
+  // Desktop: posição vertical do mouse dentro da seção
   window.addEventListener('mousemove', (e) => {
-    setPointerFromY(e.clientY);
-  }, { passive: true });
-
-  // Mobile: rolagem dentro do hero controla a profundidade (uma direção, previsível)
-  window.addEventListener('scroll', () => {
-    const max = hero.clientHeight;
-    if (max > 0) {
-      pointer.y = Math.max(-1, Math.min(1, (window.scrollY / max) * 2 - 1));
+    for (const scene of scenes) {
+      const rect = scene.container.getBoundingClientRect();
+      if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+        const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+        scene.pointer.y = Math.max(-1, Math.min(1, ny));
+      }
     }
   }, { passive: true });
 
@@ -124,7 +135,8 @@
     gyroEnabled = true;
     window.addEventListener('deviceorientation', (e) => {
       if (e.beta == null) return;
-      pointer.y = Math.max(-1, Math.min(1, (e.beta - 40) / 30));
+      const ny = Math.max(-1, Math.min(1, (e.beta - 40) / 30));
+      for (const scene of scenes) scene.pointer.y = ny;
     }, true);
   }
 
@@ -140,17 +152,21 @@
   }
   window.addEventListener('touchstart', requestGyroIfNeeded, { once: true, passive: true });
 
-  window.addEventListener('resize', resize);
-  resize();
+  window.addEventListener('resize', () => {
+    for (const scene of scenes) scene.resize();
+  });
+
+  document.querySelectorAll('canvas.depth-canvas').forEach((canvas) => {
+    scenes.push(createScene(canvas));
+  });
+
+  if (!scenes.length) return;
 
   if (!reduceMotion) {
+    updateFromScroll();
     requestAnimationFrame(frame);
   } else {
-    // ainda desenha uma vez, parado, respeitando prefers-reduced-motion
-    ctx.clearRect(0, 0, width, height);
-    for (const p of particles) {
-      if (p.isLeaf) drawLeaf(p, p.baseX, p.baseY, 0);
-      else drawBlob(p, p.baseX, p.baseY, 0);
-    }
+    // desenha uma vez, parado, respeitando prefers-reduced-motion
+    for (const scene of scenes) drawScene(scene, 0);
   }
 })();
