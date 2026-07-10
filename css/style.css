@@ -424,10 +424,32 @@ a{ color:inherit; text-decoration:none; }
 
 /* ===================== ABOUT ===================== */
 .about{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  /* fallback enquanto o vídeo carrega */
   background:linear-gradient(180deg,var(--green-deep),var(--green-olive));
   padding:6rem 1.5rem;
   color:var(--cream);
 }
+.about__video{
+  position:absolute;
+  inset:-4%;
+  width:108%;
+  height:108%;
+  object-fit:cover;
+  filter:blur(3px);
+  z-index:0;
+}
+.about__scrim{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(80% 80% at 50% 50%, rgba(28,36,14,.38), rgba(28,36,14,.55) 85%),
+    linear-gradient(180deg, rgba(28,36,14,.42), rgba(28,36,14,.55));
+  z-index:1;
+}
+.about__inner{ position:relative; z-index:2; }
 .about .eyebrow--dark{ color:var(--green-light); }
 .about .section-title{ color:var(--cream); }
 .about__inner{
