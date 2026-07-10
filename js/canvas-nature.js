@@ -1,23 +1,24 @@
 /*
-  Fundo "3D" orgânico do hero: camadas de bolhas/folhas com profundidade (parallax).
-  Movimento contínuo (idle) + reação ao mouse (desktop) e ao toque/giroscópio (mobile).
+  Fundo "3D" orgânico do site inteiro: camadas de bolhas/folhas com profundidade.
+  Parallax em UMA direção só (horizontal), suave e limitado — reage ao mouse
+  (desktop) e ao toque/giroscópio (mobile). Fica atrás do conteúdo; os cards
+  opacos cobrem o efeito.
 */
 (function () {
   const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const hero = document.getElementById('hero');
 
   let width, height, dpr;
-  let pointer = { x: 0, y: 0 };   // -1..1, alvo
-  let pointerEased = { x: 0, y: 0 }; // valor suavizado
+  let pointer = { y: 0 };      // -1..1, alvo (apenas eixo vertical)
+  let pointerEased = { y: 0 }; // valor suavizado
   let particles = [];
   let reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = hero.clientWidth;
-    height = hero.clientHeight;
+    width = window.innerWidth;
+    height = window.innerHeight;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     canvas.style.width = width + 'px';
@@ -52,11 +53,12 @@
     const wob = Math.sin(t * 0.6 + p.drift) * (p.r * 0.12);
     ctx.beginPath();
     ctx.ellipse(x, y, p.r + wob, p.r * 0.92 - wob, p.rot, 0, Math.PI * 2);
-    const alpha = 0.10 + p.depth * 0.22;
+    const alpha = 0.10 + p.depth * 0.20;
+    // tons que aparecem tanto sobre o hero escuro quanto sobre o fundo creme
     if (p.hue === 'green') {
-      ctx.fillStyle = `rgba(156,191,63,${alpha})`;
+      ctx.fillStyle = `rgba(124,145,67,${alpha})`;
     } else {
-      ctx.fillStyle = `rgba(250,246,231,${alpha * 1.1})`;
+      ctx.fillStyle = `rgba(92,107,46,${alpha * 0.9})`;
     }
     ctx.fill();
   }
@@ -79,16 +81,16 @@
   function frame(now) {
     const t = (now - t0) / 1000;
 
-    pointerEased.x += (pointer.x - pointerEased.x) * 0.06;
     pointerEased.y += (pointer.y - pointerEased.y) * 0.06;
 
     ctx.clearRect(0, 0, width, height);
 
     for (const p of particles) {
       const floatY = Math.sin(t * p.driftSpeed + p.drift) * p.floatAmp;
-      const parallaxStrength = 26 + p.depth * 70; // camadas mais "perto" se movem mais -> ilusão de profundidade
-      const x = p.baseX + pointerEased.x * parallaxStrength;
-      const y = p.baseY + floatY + pointerEased.y * parallaxStrength * 0.6;
+      // profundidade: camadas mais "perto" deslocam mais — apenas no eixo vertical
+      const parallaxStrength = 22 + p.depth * 58;
+      const x = p.baseX;
+      const y = p.baseY + floatY + pointerEased.y * parallaxStrength;
 
       if (p.isLeaf) drawLeaf(p, x, y, t);
       else drawBlob(p, x, y, t);
@@ -97,37 +99,32 @@
     requestAnimationFrame(frame);
   }
 
-  function setPointerFromEvent(clientX, clientY) {
-    const rect = hero.getBoundingClientRect();
-    const nx = ((clientX - rect.left) / rect.width) * 2 - 1;
-    const ny = ((clientY - rect.top) / rect.height) * 2 - 1;
-    pointer.x = Math.max(-1, Math.min(1, nx));
+  function setPointerFromY(clientY) {
+    const ny = (clientY / window.innerHeight) * 2 - 1;
     pointer.y = Math.max(-1, Math.min(1, ny));
   }
 
-  // Desktop: movimento do mouse
+  // Desktop: posição vertical do mouse
   window.addEventListener('mousemove', (e) => {
-    setPointerFromEvent(e.clientX, e.clientY);
+    setPointerFromY(e.clientY);
   }, { passive: true });
 
-  // Mobile: arrastar o dedo pela tela
-  window.addEventListener('touchmove', (e) => {
-    if (e.touches && e.touches[0]) {
-      setPointerFromEvent(e.touches[0].clientX, e.touches[0].clientY);
+  // Mobile: rolagem da página controla a profundidade (uma direção, previsível)
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (max > 0) {
+      pointer.y = (window.scrollY / max) * 2 - 1;
     }
   }, { passive: true });
 
-  // Mobile: inclinar o aparelho (giroscópio)
+  // Mobile: inclinar o aparelho (giroscópio) — apenas inclinação frente/trás
   let gyroEnabled = false;
   function enableGyro() {
     if (gyroEnabled) return;
     gyroEnabled = true;
     window.addEventListener('deviceorientation', (e) => {
-      if (e.beta == null || e.gamma == null) return;
-      const nx = Math.max(-1, Math.min(1, e.gamma / 30));
-      const ny = Math.max(-1, Math.min(1, (e.beta - 40) / 30));
-      pointer.x = nx;
-      pointer.y = ny;
+      if (e.beta == null) return;
+      pointer.y = Math.max(-1, Math.min(1, (e.beta - 40) / 30));
     }, true);
   }
 

@@ -18,12 +18,13 @@
   );
   revealTargets.forEach((el) => observer.observe(el));
 
-  // Parallax sutil da imagem de fundo do hero ao rolar a página
+  // Parallax da imagem de fundo do hero: apenas vertical, limitado para
+  // nunca deslocar a foto além das bordas
   const heroBg = document.querySelector('.hero__bg');
   if (heroBg) {
     window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      heroBg.style.transform = `scale(1.06) translateY(${y * 0.12}px)`;
+      const y = Math.min(window.scrollY * 0.08, 40);
+      heroBg.style.transform = `scale(1.06) translateY(${y}px)`;
     }, { passive: true });
   }
 })();
