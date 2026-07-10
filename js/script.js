@@ -1,7 +1,7 @@
 /* Reveal ao rolar + leve parallax na imagem de fundo do hero */
 (function () {
   const revealTargets = document.querySelectorAll(
-    '.section-title, .product-card, .benefit-card, .about__inner, .highlights'
+    '.section-title, .product-card, .benefit-card, .review-card, .about__inner, .highlights'
   );
   revealTargets.forEach((el) => el.classList.add('reveal'));
 
