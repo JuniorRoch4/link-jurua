@@ -489,31 +489,7 @@ a{ color:inherit; text-decoration:none; }
   margin:0;
 }
 
-/* ===================== CTA ===================== */
-.cta{
-  padding:6rem 1.5rem;
-  text-align:center;
-  background:radial-gradient(120% 100% at 50% 0%, var(--green-bright), var(--green-olive) 70%);
-  color:var(--cream);
-}
-.cta__title{
-  font-family:var(--font-display);
-  font-size:clamp(2rem,5vw,3rem);
-  margin:0 0 .8rem;
-}
-.cta__subtitle{
-  max-width:480px;
-  margin:0 auto 2rem;
-  color:rgba(250,246,231,.9);
-}
-.cta__buttons{
-  display:flex;
-  gap:1rem;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-/* ===================== FOOTER BANNER ===================== */
+/* ===================== FOOTER BANNER (CTA FINAL) ===================== */
 .footer-banner{
   position:relative;
   min-height:46vh;
@@ -536,8 +512,8 @@ a{ color:inherit; text-decoration:none; }
   position:absolute;
   inset:0;
   background:
-    radial-gradient(70% 70% at 50% 45%, rgba(20,26,10,.18), rgba(20,26,10,.5) 85%),
-    linear-gradient(180deg, rgba(15,20,8,.25), rgba(15,20,8,.5));
+    radial-gradient(70% 70% at 50% 45%, rgba(20,26,10,.5), rgba(20,26,10,.78) 85%),
+    linear-gradient(180deg, rgba(15,20,8,.55), rgba(15,20,8,.78));
   z-index:1;
 }
 .footer-banner__content{
@@ -550,18 +526,33 @@ a{ color:inherit; text-decoration:none; }
   align-items:center;
   gap:.8rem;
 }
-.footer-banner__text{
+.footer-banner__title{
   font-family:var(--font-display);
-  font-size:1.35rem;
+  font-weight:500;
+  font-size:clamp(2rem,5vw,3rem);
   color:var(--cream);
   margin:0 0 .6rem;
-  text-shadow:0 4px 18px rgba(0,0,0,.55);
+  text-shadow:0 6px 24px rgba(0,0,0,.5);
 }
+.footer-banner__text{
+  font-size:1rem;
+  line-height:1.6;
+  color:rgba(250,246,231,.92);
+  max-width:440px;
+  margin:0 0 1.8rem;
+  text-shadow:0 2px 12px rgba(0,0,0,.5);
+}
+/* botões empilhados: WhatsApp acima, Instagram abaixo, mesma largura */
 .footer-banner__buttons{
   display:flex;
-  gap:1rem;
+  flex-direction:column;
+  align-items:center;
+  gap:.9rem;
+  width:100%;
+}
+.footer-banner__buttons .social-btn{
+  width:min(320px,100%);
   justify-content:center;
-  flex-wrap:wrap;
 }
 
 /* ===================== FOOTER ===================== */
@@ -622,10 +613,9 @@ a{ color:inherit; text-decoration:none; }
   .reviews{ padding:3rem 1.2rem 3.5rem; }
   .about{ padding:3.5rem 1.2rem; }
   .benefits{ padding:3.5rem 1.2rem; }
-  .cta{ padding:3.5rem 1.2rem; }
   .section-title{ margin-bottom:1.8rem; }
-  .footer-banner{ min-height:38vh; }
-  .footer-banner__content{ padding:2.2rem 1.2rem; }
+  .footer-banner{ min-height:0; }
+  .footer-banner__content{ padding:3rem 1.5rem; }
   .social-btn{ padding:.9rem 1.6rem; font-size:.95rem; }
 }
 
