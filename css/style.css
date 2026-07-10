@@ -1,0 +1,454 @@
+/* ===================== TOKENS ===================== */
+:root{
+  --green-deep:#3d4a1f;
+  --green-olive:#5c6b2e;
+  --green-mid:#7c9143;
+  --green-bright:#9cbf3f;
+  --green-light:#cbe38a;
+  --cream:#faf6e7;
+  --cream-dark:#efe6c8;
+  --brown:#6b5a3a;
+  --text-dark:#2c3316;
+  --text-soft:#4d5636;
+  --accent-sun:#e0a53a;
+
+  --font-display:'Fraunces', serif;
+  --font-body:'Inter', sans-serif;
+
+  --shadow-soft:0 20px 50px -20px rgba(45,54,20,.35);
+  --ease:cubic-bezier(.22,.68,0,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--text-dark);
+  background:var(--cream);
+  overflow-x:hidden;
+}
+
+img{ max-width:100%; display:block; }
+
+a{ color:inherit; text-decoration:none; }
+
+.eyebrow{
+  font-size:.8rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-weight:500;
+  color:var(--green-light);
+  margin:0 0 .6rem;
+}
+.eyebrow--dark{ color:var(--green-mid); text-align:center; }
+
+.section-title{
+  font-family:var(--font-display);
+  font-weight:500;
+  font-size:clamp(1.9rem,4vw,2.8rem);
+  text-align:center;
+  margin:0 0 2.5rem;
+  color:var(--text-dark);
+}
+
+/* ===================== BADGES / BUTTONS ===================== */
+.badge{
+  display:inline-block;
+  font-size:.78rem;
+  font-weight:500;
+  padding:.4rem .85rem;
+  border-radius:999px;
+  background:rgba(250,246,231,.16);
+  border:1px solid rgba(250,246,231,.35);
+  color:var(--cream);
+  backdrop-filter:blur(6px);
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  padding:.95rem 2rem;
+  border-radius:999px;
+  font-weight:600;
+  font-size:.98rem;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease);
+  will-change:transform;
+}
+.btn--primary{
+  background:linear-gradient(135deg,#4caf50,#2e7d32);
+  color:#fff;
+  box-shadow:0 14px 30px -10px rgba(46,125,50,.55);
+}
+.btn--secondary{
+  background:var(--cream);
+  color:var(--green-deep);
+  border:1.5px solid var(--green-mid);
+}
+.btn:hover{ transform:translateY(-3px) scale(1.02); }
+.btn--hero{ margin:1.6rem 0 2.4rem; }
+
+/* ===================== HERO ===================== */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.hero__bg{
+  position:absolute;
+  inset:-3% -3%;
+  background-position:center 30%;
+  background-size:cover;
+  background-repeat:no-repeat;
+  transform:scale(1.06);
+  will-change:transform;
+  z-index:0;
+}
+
+.hero__scrim{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(60% 60% at 50% 38%, rgba(20,26,10,.25), rgba(20,26,10,.55) 65%),
+    linear-gradient(180deg, rgba(15,20,8,.55) 0%, rgba(15,20,8,.35) 40%, rgba(15,20,8,.75) 100%);
+  z-index:1;
+}
+
+#bg-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:2;
+}
+
+.hero__content{
+  position:relative;
+  z-index:3;
+  max-width:640px;
+  padding:2rem 1.5rem;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.hero__badge-row{
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:1.4rem;
+}
+
+.hero__logo-frame{
+  width:104px;
+  height:104px;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid rgba(250,246,231,.85);
+  box-shadow:var(--shadow-soft);
+  margin-bottom:1.2rem;
+}
+.hero__logo{ width:100%; height:100%; object-fit:cover; }
+
+.hero__name{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(3rem,9vw,5.5rem);
+  color:var(--cream);
+  margin:.2rem 0;
+  letter-spacing:.01em;
+  text-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.hero__tagline{
+  color:var(--cream-dark);
+  font-size:1.05rem;
+  line-height:1.6;
+  max-width:480px;
+  margin:0 auto;
+}
+
+.scroll-cue{
+  position:relative;
+  width:26px;
+  height:42px;
+  border:2px solid rgba(250,246,231,.6);
+  border-radius:999px;
+  display:block;
+}
+.scroll-cue span{
+  position:absolute;
+  top:6px; left:50%;
+  width:5px; height:5px;
+  border-radius:50%;
+  background:var(--cream);
+  transform:translateX(-50%);
+  animation:scroll-cue 1.8s ease-in-out infinite;
+}
+@keyframes scroll-cue{
+  0%{ transform:translate(-50%,0); opacity:1; }
+  70%{ opacity:0; }
+  100%{ transform:translate(-50%,18px); opacity:0; }
+}
+
+/* ===================== HIGHLIGHTS NAV ===================== */
+.highlights{
+  display:flex;
+  justify-content:center;
+  gap:clamp(1.2rem,4vw,2.6rem);
+  padding:2rem 1rem;
+  background:var(--cream);
+  flex-wrap:wrap;
+}
+.highlight{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.5rem;
+  font-size:.8rem;
+  font-weight:500;
+  color:var(--text-soft);
+  transition:transform .3s var(--ease), color .3s var(--ease);
+}
+.highlight:hover{ transform:translateY(-4px); color:var(--green-deep); }
+.highlight__icon{
+  width:56px; height:56px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem;
+  background:linear-gradient(135deg,var(--green-light),var(--green-bright));
+  box-shadow:0 10px 22px -10px rgba(92,107,46,.5);
+}
+
+/* ===================== PRODUCTS ===================== */
+.products{
+  padding:5rem 1.5rem 6rem;
+  background:var(--cream);
+}
+.products__grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2rem;
+  max-width:1100px;
+  margin:0 auto;
+}
+.product-card{
+  background:#fff;
+  border-radius:28px;
+  padding:1.5rem;
+  box-shadow:var(--shadow-soft);
+  display:flex;
+  flex-direction:column;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.product-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 30px 60px -20px rgba(45,54,20,.4);
+}
+.product-card__media{
+  border-radius:20px;
+  overflow:hidden;
+  aspect-ratio:4/3;
+  margin-bottom:1.2rem;
+  background:var(--cream-dark);
+}
+.product-card__media img{ width:100%; height:100%; object-fit:cover; }
+.product-card__media--placeholder{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--text-soft);
+  font-size:.9rem;
+  background:repeating-linear-gradient(135deg,var(--cream-dark),var(--cream-dark) 10px,var(--cream) 10px,var(--cream) 20px);
+}
+.product-card h3{
+  font-family:var(--font-display);
+  font-size:1.3rem;
+  margin:0 0 .4rem;
+}
+.product-card__desc{
+  color:var(--text-soft);
+  font-size:.92rem;
+  margin:0 0 1rem;
+  line-height:1.5;
+}
+.product-card__chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+  margin-bottom:1.3rem;
+}
+.chip{
+  font-size:.72rem;
+  padding:.3rem .7rem;
+  border-radius:999px;
+  background:var(--green-light);
+  color:var(--green-deep);
+  font-weight:500;
+}
+.product-card__cta{
+  margin-top:auto;
+  font-weight:600;
+  font-size:.9rem;
+  color:var(--green-deep);
+  align-self:flex-start;
+  border-bottom:2px solid var(--green-bright);
+  padding-bottom:2px;
+  transition:opacity .3s;
+}
+.product-card__cta:hover{ opacity:.7; }
+.product-card--soon{ opacity:.9; }
+
+/* ===================== ABOUT ===================== */
+.about{
+  background:linear-gradient(180deg,var(--green-deep),var(--green-olive));
+  padding:6rem 1.5rem;
+  color:var(--cream);
+}
+.about .eyebrow--dark{ color:var(--green-light); }
+.about .section-title{ color:var(--cream); }
+.about__inner{
+  max-width:680px;
+  margin:0 auto;
+  text-align:center;
+}
+.about__text{
+  font-size:1.08rem;
+  line-height:1.75;
+  color:rgba(250,246,231,.9);
+}
+.about__text--emphasis{
+  font-family:var(--font-display);
+  font-size:1.3rem;
+  color:var(--green-light);
+  margin-top:1.5rem;
+}
+
+/* ===================== BENEFITS ===================== */
+.benefits{
+  padding:6rem 1.5rem;
+  background:var(--cream);
+}
+.benefits__grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.6rem;
+  max-width:1100px;
+  margin:0 auto;
+}
+.benefit-card{
+  text-align:center;
+  padding:2.2rem 1.4rem;
+  background:#fff;
+  border-radius:24px;
+  box-shadow:var(--shadow-soft);
+  transition:transform .4s var(--ease);
+}
+.benefit-card:hover{ transform:translateY(-6px); }
+.benefit-card__icon{
+  display:inline-flex;
+  width:60px; height:60px;
+  align-items:center; justify-content:center;
+  font-size:1.6rem;
+  border-radius:50%;
+  background:var(--green-light);
+  margin-bottom:1rem;
+}
+.benefit-card h3{
+  font-family:var(--font-display);
+  font-size:1.1rem;
+  margin:0 0 .5rem;
+}
+.benefit-card p{
+  font-size:.88rem;
+  color:var(--text-soft);
+  line-height:1.55;
+  margin:0;
+}
+
+/* ===================== CTA ===================== */
+.cta{
+  padding:6rem 1.5rem;
+  text-align:center;
+  background:radial-gradient(120% 100% at 50% 0%, var(--green-bright), var(--green-olive) 70%);
+  color:var(--cream);
+}
+.cta__title{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,3rem);
+  margin:0 0 .8rem;
+}
+.cta__subtitle{
+  max-width:480px;
+  margin:0 auto 2rem;
+  color:rgba(250,246,231,.9);
+}
+.cta__buttons{
+  display:flex;
+  gap:1rem;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+/* ===================== FOOTER ===================== */
+.footer{
+  text-align:center;
+  padding:2rem 1rem;
+  background:var(--green-deep);
+  color:rgba(250,246,231,.7);
+  font-size:.82rem;
+}
+
+/* ===================== WHATSAPP FAB ===================== */
+.whatsapp-fab{
+  position:fixed;
+  right:1.4rem;
+  bottom:1.4rem;
+  width:60px; height:60px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#4caf50,#2e7d32);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem;
+  box-shadow:0 16px 34px -10px rgba(46,125,50,.65);
+  z-index:50;
+  animation:fab-pulse 2.6s ease-in-out infinite;
+}
+@keyframes fab-pulse{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.08); }
+}
+
+/* ===================== SCROLL REVEAL ===================== */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .8s var(--ease), transform .8s var(--ease);
+}
+.reveal.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width:640px){
+  .hero__content{ padding:1.5rem 1.2rem; }
+  .highlights{ gap:1.4rem; }
+  .products, .about, .benefits, .cta{ padding-left:1.2rem; padding-right:1.2rem; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  .btn, .product-card, .benefit-card, .highlight, .whatsapp-fab{ transition:none; animation:none; }
+  .reveal{ opacity:1; transform:none; }
+}
