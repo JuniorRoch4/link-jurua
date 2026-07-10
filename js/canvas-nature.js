@@ -1,13 +1,13 @@
 /*
-  Fundo "3D" orgânico do site inteiro: camadas de bolhas/folhas com profundidade.
-  Parallax em UMA direção só (horizontal), suave e limitado — reage ao mouse
-  (desktop) e ao toque/giroscópio (mobile). Fica atrás do conteúdo; os cards
-  opacos cobrem o efeito.
+  Efeito "3D" orgânico do hero: camadas de bolhas/folhas com profundidade
+  sobre a foto de fundo. Parallax em UMA direção só (vertical) — reage ao
+  mouse (desktop), à rolagem e ao giroscópio (mobile).
 */
 (function () {
   const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
+  const hero = document.getElementById('hero');
 
   let width, height, dpr;
   let pointer = { y: 0 };      // -1..1, alvo (apenas eixo vertical)
@@ -17,8 +17,8 @@
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = window.innerWidth;
-    height = window.innerHeight;
+    width = hero.clientWidth;
+    height = hero.clientHeight;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     canvas.style.width = width + 'px';
@@ -53,12 +53,12 @@
     const wob = Math.sin(t * 0.6 + p.drift) * (p.r * 0.12);
     ctx.beginPath();
     ctx.ellipse(x, y, p.r + wob, p.r * 0.92 - wob, p.rot, 0, Math.PI * 2);
-    const alpha = 0.10 + p.depth * 0.20;
-    // tons que aparecem tanto sobre o hero escuro quanto sobre o fundo creme
+    const alpha = 0.10 + p.depth * 0.22;
+    // tons claros — desenhados apenas sobre a foto escura do hero
     if (p.hue === 'green') {
-      ctx.fillStyle = `rgba(124,145,67,${alpha})`;
+      ctx.fillStyle = `rgba(156,191,63,${alpha})`;
     } else {
-      ctx.fillStyle = `rgba(92,107,46,${alpha * 0.9})`;
+      ctx.fillStyle = `rgba(250,246,231,${alpha * 1.1})`;
     }
     ctx.fill();
   }
@@ -109,11 +109,11 @@
     setPointerFromY(e.clientY);
   }, { passive: true });
 
-  // Mobile: rolagem da página controla a profundidade (uma direção, previsível)
+  // Mobile: rolagem dentro do hero controla a profundidade (uma direção, previsível)
   window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const max = hero.clientHeight;
     if (max > 0) {
-      pointer.y = (window.scrollY / max) * 2 - 1;
+      pointer.y = Math.max(-1, Math.min(1, (window.scrollY / max) * 2 - 1));
     }
   }, { passive: true });
 

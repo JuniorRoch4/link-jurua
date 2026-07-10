@@ -123,10 +123,9 @@ a{ color:inherit; text-decoration:none; }
   z-index:1;
 }
 
-/* canvas fixo: efeito de profundidade no site inteiro, atrás do conteúdo
-   (acima do scrim dentro do hero; visível nas demais seções transparentes) */
+/* canvas do efeito de profundidade — restrito ao hero (foto de fundo) */
 #bg-canvas{
-  position:fixed;
+  position:absolute;
   inset:0;
   width:100%;
   height:100%;
@@ -211,7 +210,7 @@ a{ color:inherit; text-decoration:none; }
   justify-content:center;
   gap:clamp(1.2rem,4vw,2.6rem);
   padding:2rem 1rem;
-  background:transparent; /* deixa o efeito de profundidade aparecer */
+  background:var(--cream);
   flex-wrap:wrap;
 }
 .highlight{
@@ -237,7 +236,7 @@ a{ color:inherit; text-decoration:none; }
 /* ===================== PRODUCTS ===================== */
 .products{
   padding:5rem 1.5rem 6rem;
-  background:transparent; /* deixa o efeito de profundidade aparecer */
+  background:var(--cream);
 }
 .products__grid{
   display:grid;
@@ -316,7 +315,7 @@ a{ color:inherit; text-decoration:none; }
 /* ===================== REVIEWS ===================== */
 .reviews{
   padding:5rem 1.5rem 6rem;
-  background:transparent; /* deixa o efeito de profundidade aparecer */
+  background:linear-gradient(180deg,var(--cream),var(--cream-dark));
 }
 .reviews__grid{
   display:grid;
@@ -428,7 +427,7 @@ a{ color:inherit; text-decoration:none; }
 /* ===================== BENEFITS ===================== */
 .benefits{
   padding:6rem 1.5rem;
-  background:transparent; /* deixa o efeito de profundidade aparecer */
+  background:var(--cream);
 }
 .benefits__grid{
   display:grid;
