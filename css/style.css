@@ -429,6 +429,25 @@ a{ color:inherit; text-decoration:none; }
   font-size:.76rem;
   font-weight:500;
 }
+
+.review-card--photo{
+  padding:0;
+  overflow:hidden;
+  gap:0;
+}
+.review-card--photo::before{ content:none; }
+.review-card__img{
+  width:100%;
+  display:block;
+}
+.review-card__tag{
+  margin-top:auto;
+  padding:1rem 1.2rem;
+  text-align:center;
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--green-mid);
+}
 .reviews__cta-text{
   text-align:center;
   color:var(--text-soft);
