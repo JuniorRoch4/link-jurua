@@ -93,26 +93,26 @@ a{ color:inherit; text-decoration:none; }
 .btn--hero{ margin:1.6rem 0 2.4rem; }
 .btn__icon{ width:20px; height:20px; flex-shrink:0; }
 
-/* botões sociais grandes com ícone — destaque máximo */
+/* botões sociais discretos, no tom pastel da marca */
 .social-btn{
   display:inline-flex;
   align-items:center;
-  gap:.65rem;
-  padding:1rem 2.2rem;
+  gap:.5rem;
+  padding:.65rem 1.5rem;
   border-radius:999px;
   font-weight:600;
-  font-size:1.05rem;
-  color:#fff;
-  box-shadow:0 18px 40px -12px rgba(0,0,0,.55);
+  font-size:.88rem;
+  color:var(--green-deep);
+  box-shadow:0 10px 24px -14px rgba(61,74,31,.45);
   transition:transform .35s var(--ease), box-shadow .35s var(--ease);
 }
-.social-btn svg{ width:24px; height:24px; flex-shrink:0; }
-.social-btn:hover{ transform:translateY(-4px) scale(1.04); }
+.social-btn svg{ width:18px; height:18px; flex-shrink:0; }
+.social-btn:hover{ transform:translateY(-3px) scale(1.02); }
 .social-btn--whatsapp{
-  background:linear-gradient(135deg,#25d366,#128c7e);
+  background:linear-gradient(135deg,#d3e4b3,#a9c17e);
 }
 .social-btn--instagram{
-  background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);
+  background:linear-gradient(135deg,#ecdfc0,#d1b48c);
 }
 
 /* ===================== HERO ===================== */
@@ -593,7 +593,7 @@ a{ color:inherit; text-decoration:none; }
   width:100%;
 }
 .footer-banner__buttons .social-btn{
-  width:min(320px,100%);
+  width:min(240px,100%);
   justify-content:center;
 }
 
@@ -665,7 +665,8 @@ a{ color:inherit; text-decoration:none; }
   .section-title{ margin-bottom:1.8rem; }
   .footer-banner{ min-height:0; }
   .footer-banner__content{ padding:3rem 1.5rem; }
-  .social-btn{ padding:.9rem 1.6rem; font-size:.95rem; }
+  .social-btn{ padding:.55rem 1.3rem; font-size:.82rem; }
+  .social-btn svg{ width:16px; height:16px; }
 }
 
 @media (prefers-reduced-motion:reduce){
