@@ -90,7 +90,7 @@ a{ color:inherit; text-decoration:none; }
   border:1.5px solid var(--green-mid);
 }
 .btn:hover{ transform:translateY(-3px) scale(1.02); }
-.btn--hero{ margin:1.6rem 0 2.4rem; }
+.btn--hero{ margin:2.6rem 0 2.8rem; }
 .btn__icon{ width:20px; height:20px; flex-shrink:0; }
 
 /* botões sociais discretos, no tom pastel da marca */
@@ -220,26 +220,18 @@ a{ color:inherit; text-decoration:none; }
 }
 
 .scroll-cue{
-  position:relative;
-  width:26px;
-  height:42px;
-  border:2px solid rgba(250,246,231,.6);
-  border-radius:999px;
-  display:block;
-}
-.scroll-cue span{
-  position:absolute;
-  top:6px; left:50%;
-  width:5px; height:5px;
-  border-radius:50%;
-  background:var(--cream);
-  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:30px;
+  height:30px;
+  color:rgba(250,246,231,.8);
   animation:scroll-cue 1.8s ease-in-out infinite;
 }
+.scroll-cue svg{ width:100%; height:100%; }
 @keyframes scroll-cue{
-  0%{ transform:translate(-50%,0); opacity:1; }
-  70%{ opacity:0; }
-  100%{ transform:translate(-50%,18px); opacity:0; }
+  0%,100%{ transform:translateY(0); opacity:.55; }
+  50%{ transform:translateY(9px); opacity:1; }
 }
 
 /* ===================== HIGHLIGHTS NAV ===================== */
@@ -660,7 +652,8 @@ a{ color:inherit; text-decoration:none; }
   .site-header{ padding:.7rem .9rem; gap:.5rem; justify-content:space-between; }
   .site-header .badge{ font-size:.66rem; padding:.34rem .6rem; flex:1; text-align:center; white-space:nowrap; }
   .hero__content{ padding:1.5rem 1.2rem; }
-  .hero__logo-frame{ width:128px; height:128px; margin-bottom:1.4rem; }
+  .hero__logo-frame{ width:156px; height:156px; margin-bottom:1.4rem; }
+  .btn--hero{ margin:2.2rem 0 2.6rem; }
 
   /* nav rápida: 4 itens em uma linha só, sem quebra */
   .highlights{
