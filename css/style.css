@@ -352,6 +352,11 @@ a{ color:inherit; text-decoration:none; }
 }
 .product-card--soon{ opacity:.9; }
 
+.product-card--kit .product-card__media--placeholder{
+  background:linear-gradient(135deg,var(--green-light),var(--cream-dark));
+}
+.product-card__media-icon{ font-size:2.8rem; }
+
 /* ===================== REVIEWS ===================== */
 .reviews{
   padding:5rem 1.5rem 6rem;
