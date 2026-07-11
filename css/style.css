@@ -126,6 +126,7 @@ a{ color:inherit; text-decoration:none; }
   gap:.6rem;
   flex-wrap:wrap;
   justify-content:center;
+  align-items:center;
   padding:.9rem 1.2rem;
   background:rgba(92,107,46,.22);
   border-bottom:1px solid rgba(250,246,231,.14);
@@ -656,9 +657,10 @@ a{ color:inherit; text-decoration:none; }
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width:640px){
-  .site-header{ padding:.65rem .8rem; gap:.4rem; }
-  .site-header .badge{ font-size:.68rem; padding:.32rem .65rem; }
+  .site-header{ padding:.7rem .9rem; gap:.5rem; justify-content:space-between; }
+  .site-header .badge{ font-size:.66rem; padding:.34rem .6rem; flex:1; text-align:center; white-space:nowrap; }
   .hero__content{ padding:1.5rem 1.2rem; }
+  .hero__logo-frame{ width:128px; height:128px; margin-bottom:1.4rem; }
 
   /* nav rápida: 4 itens em uma linha só, sem quebra */
   .highlights{
