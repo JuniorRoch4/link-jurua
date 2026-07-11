@@ -1,5 +1,17 @@
 /* Reveal ao rolar + leve parallax na imagem de fundo do hero */
 (function () {
+  // Header: mantém a cor da foto enquanto sobrepõe a hero; vira vidro transparente ao rolar além dela
+  const header = document.querySelector('.site-header');
+  const hero = document.getElementById('hero');
+  if (header && hero) {
+    const updateHeader = () => {
+      const pastHero = hero.getBoundingClientRect().bottom <= header.offsetHeight;
+      header.classList.toggle('site-header--scrolled', pastHero);
+    };
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+  }
+
   const revealTargets = document.querySelectorAll(
     '.section-title, .product-card, .benefit-card, .review-card, .about__inner, .highlights'
   );
