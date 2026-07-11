@@ -115,6 +115,24 @@ a{ color:inherit; text-decoration:none; }
   background:linear-gradient(135deg,#ecdfc0,#d1b48c);
 }
 
+/* ===================== HEADER ===================== */
+.site-header{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  z-index:3;
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:.9rem 1.2rem;
+  background:rgba(92,107,46,.22);
+  border-bottom:1px solid rgba(250,246,231,.14);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
 /* ===================== HERO ===================== */
 .hero{
   position:relative;
@@ -165,14 +183,6 @@ a{ color:inherit; text-decoration:none; }
   display:flex;
   flex-direction:column;
   align-items:center;
-}
-
-.hero__badge-row{
-  display:flex;
-  gap:.6rem;
-  flex-wrap:wrap;
-  justify-content:center;
-  margin-bottom:1.4rem;
 }
 
 .hero__logo-frame{
@@ -646,6 +656,8 @@ a{ color:inherit; text-decoration:none; }
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width:640px){
+  .site-header{ padding:.65rem .8rem; gap:.4rem; }
+  .site-header .badge{ font-size:.68rem; padding:.32rem .65rem; }
   .hero__content{ padding:1.5rem 1.2rem; }
 
   /* nav rápida: 4 itens em uma linha só, sem quebra */
