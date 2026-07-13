@@ -13,7 +13,9 @@
   --accent-sun:#e0a53a;
 
   --font-display:'Fraunces', serif;
+  --font-brand:'Playfair Display', serif;
   --font-body:'Inter', sans-serif;
+  --brand-gradient:linear-gradient(135deg, var(--green-mid), var(--green-bright));
 
   --shadow-soft:0 20px 50px -20px rgba(45,54,20,.35);
   --ease:cubic-bezier(.22,.68,0,1);
@@ -135,12 +137,15 @@ a{ color:inherit; text-decoration:none; }
 }
 
 .site-header__brand{
-  font-family:var(--font-display);
-  font-weight:600;
+  font-family:var(--font-brand);
+  font-weight:700;
   font-size:1.75rem;
   letter-spacing:.03em;
   font-variant:small-caps;
-  color:var(--green-bright);
+  background:var(--brand-gradient);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
 /* botão hamburguer discreto, à esquerda */
@@ -309,8 +314,9 @@ a{ color:inherit; text-decoration:none; }
 .hero__logo{ width:100%; height:100%; object-fit:cover; }
 
 .hero__name{
-  font-family:var(--font-display);
-  font-weight:600;
+  font-family:var(--font-brand);
+  font-weight:700;
+  font-variant:small-caps;
   font-size:clamp(3rem,9vw,5.5rem);
   color:var(--cream);
   margin:.2rem 0;
