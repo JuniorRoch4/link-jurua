@@ -780,7 +780,7 @@ a{ color:inherit; text-decoration:none; }
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width:640px){
-  .site-header__brand{ font-size:1.4rem; }
+  .site-header__brand{ font-size:1.75rem; }
   .site-header .badge{ font-size:.66rem; padding:.34rem .6rem; white-space:nowrap; }
   .hero__content{ padding:1.5rem 1.2rem; }
   .hero__logo-frame{ width:156px; height:156px; margin-bottom:1.4rem; }
