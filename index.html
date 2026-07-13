@@ -23,10 +23,27 @@
 
 <!-- ========== HEADER ========== -->
 <header class="site-header">
-  <span class="badge">🌿 100% Natural</span>
-  <span class="badge">🌱 Vegano</span>
-  <span class="badge">🚫 Sem Químicos</span>
+  <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteMenu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <span class="site-header__brand">Juruá</span>
+
+  <div class="site-header__badges" id="headerBadges" aria-hidden="true">
+    <span class="badge">🌿 100% Natural</span>
+    <span class="badge">🌱 Vegano</span>
+    <span class="badge">🚫 Sem Químicos</span>
+  </div>
 </header>
+
+<div class="side-menu__overlay" id="menuOverlay" hidden></div>
+<nav class="side-menu" id="siteMenu" aria-label="Menu principal">
+  <a href="#produtos" class="side-menu__link">🧼 Sabonetes</a>
+  <a href="#sobre" class="side-menu__link">🌾 Produção</a>
+  <a href="#avaliacoes" class="side-menu__link">✨ Feedbacks</a>
+  <a href="#diferenciais" class="side-menu__link">🍃 Diferenciais</a>
+  <a href="https://wa.me/5521959474549?text=Oi!%20Vi%20o%20link%20do%20Juru%C3%A1%20e%20quero%20saber%20mais%20sobre%20os%20sabonetes%20%F0%9F%8C%BF" class="side-menu__link side-menu__link--cta" target="_blank" rel="noopener">💬 Falar no WhatsApp</a>
+</nav>
 
 <!-- ========== HERO ========== -->
 <section class="hero" id="hero">

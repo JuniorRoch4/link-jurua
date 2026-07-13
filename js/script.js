@@ -1,15 +1,43 @@
 /* Reveal ao rolar + leve parallax na imagem de fundo do hero */
 (function () {
-  // Header: mantém a cor da foto enquanto sobrepõe a hero; vira vidro transparente ao rolar além dela
+  // Header: badges com efeito de vidro só aparecem depois que a página é rolada
   const header = document.querySelector('.site-header');
-  const hero = document.getElementById('hero');
-  if (header && hero) {
+  if (header) {
     const updateHeader = () => {
-      const pastHero = hero.getBoundingClientRect().bottom <= header.offsetHeight;
-      header.classList.toggle('site-header--scrolled', pastHero);
+      header.classList.toggle('site-header--scrolled', window.scrollY > 40);
     };
     updateHeader();
     window.addEventListener('scroll', updateHeader, { passive: true });
+  }
+
+  // Menu lateral (hamburguer discreto)
+  const menuToggle = document.getElementById('menuToggle');
+  const sideMenu = document.getElementById('siteMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+  if (menuToggle && sideMenu && menuOverlay) {
+    const closeMenu = () => {
+      sideMenu.classList.remove('is-open');
+      menuOverlay.classList.remove('is-visible');
+      menuOverlay.hidden = true;
+      menuToggle.setAttribute('aria-expanded', 'false');
+    };
+    const openMenu = () => {
+      sideMenu.classList.add('is-open');
+      menuOverlay.hidden = false;
+      requestAnimationFrame(() => menuOverlay.classList.add('is-visible'));
+      menuToggle.setAttribute('aria-expanded', 'true');
+    };
+    menuToggle.addEventListener('click', () => {
+      const isOpen = sideMenu.classList.contains('is-open');
+      isOpen ? closeMenu() : openMenu();
+    });
+    menuOverlay.addEventListener('click', closeMenu);
+    sideMenu.querySelectorAll('.side-menu__link').forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
   }
 
   const revealTargets = document.querySelectorAll(
